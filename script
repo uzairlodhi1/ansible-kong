@@ -1,0 +1,31 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          kong
+# Required-Start:    
+# Required-Stop:     
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start Kong at boot time
+# Description:       Enable Kong Gateway.
+### END INIT INFO
+
+case "$1" in
+  start)
+    echo "Starting Kong..."
+    /usr/local/bin/kong start
+    ;;
+  stop)
+    echo "Stopping Kong..."
+    /usr/local/bin/kong stop
+    ;;
+  restart)
+    echo "Restarting Kong..."
+    /usr/local/bin/kong restart
+    ;;
+  *)
+    echo "Usage: /etc/init.d/kong {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
