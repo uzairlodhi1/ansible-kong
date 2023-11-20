@@ -1,0 +1,40 @@
+---
+# tasks file for kong
+- name: Install dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    - luarocks
+    - openssl
+    - libpcre3-dev
+    - perl
+    - make
+    - python3
+    - python3-pip
+    - unzip
+    - curl
+    - gcc
+    - libyaml-dev
+
+- name: Clone Kong repository
+  git:
+    repo: https://github.com/Kong/kong.git
+    dest: /tmp/kong
+    version: 2.8.0
+
+- name: Build Kong
+  command:
+    cmd: make install
+    chdir: /tmp/kong
+
+- name: Copy the startup script
+  copy:
+    src: "/home/ubuntu/.ansible/roles/kong/script"
+    dest: /etc/init.d/kong
+    mode: 0755
+
+- name: Enable the startup script
+  command:
+    cmd: update-rc.d kong defaults
